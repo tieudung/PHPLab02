@@ -7,7 +7,9 @@ if ($method !== 'GET' && $method !== 'POST') {
     exit('Method not allowed');
 }
 
-$ref = trim((string)($_GET['ref'] ?? $_POST['ref'] ?? ''));
+$rawRef = $_GET['ref'] ?? $_POST['ref'] ?? '';
+$ref = is_string($rawRef) ? trim($rawRef) : '';
+
 $index = find_booking_index_by_ref($_SESSION['bookings'], $ref);
 $booking = $index !== null ? $_SESSION['bookings'][$index] : null;
 $workshopInfo = $booking !== null ? find_workshop_for_booking($booking, $workshops) : null;
@@ -28,7 +30,6 @@ if ($method === 'POST') {
     if ($booking === null || $workshopInfo === null) {
         http_response_code(404);
     } else {
-        // Luôn khóa chặt workshop_id theo dữ liệu gốc trên server, không tin dữ liệu client gửi lên
         $validationInput = [
             'full_name' => $_POST['full_name'] ?? '',
             'email' => $_POST['email'] ?? '',
@@ -39,11 +40,10 @@ if ($method === 'POST') {
         $result = validate_booking($validationInput, $workshops);
         $errors = $result['errors'];
 
-        // Giữ lại giá trị người dùng đang nhập trên form nếu xảy ra lỗi validation
         $formData = [
-            'full_name' => (string)($_POST['full_name'] ?? ''),
-            'email' => (string)($_POST['email'] ?? ''),
-            'quantity' => (string)($_POST['quantity'] ?? ''),
+            'full_name' => is_string($_POST['full_name'] ?? null) ? $_POST['full_name'] : '',
+            'email' => is_string($_POST['email'] ?? null) ? $_POST['email'] : '',
+            'quantity' => is_scalar($_POST['quantity'] ?? null) ? (string)$_POST['quantity'] : '',
         ];
 
         if (!$errors) {

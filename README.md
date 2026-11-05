@@ -16,12 +16,12 @@
 
 ## 2. Cách chạy ứng dụng trên Localhost
 ### Cách 1: Chạy qua XAMPP Apache
-1. Đặt thư mục `php-s07-workshop` vào trong thư mục `htdocs` của XAMPP.
+1. Đặt thư mục `PHPLab02` vào trong thư mục `htdocs` của XAMPP.
 2. Mở XAMPP Control Panel / Manager và bật **Apache Web Server**.
-3. Truy cập trên trình duyệt tại địa chỉ: `http://localhost/php-s07-workshop/`
+3. Truy cập trên trình duyệt tại địa chỉ: `http://localhost/PHPLab02/`
 
 ### Cách 2: Chạy bằng PHP Built-in Server
-1. Mở Terminal tại thư mục `php-s07-workshop`.
+1. Mở Terminal tại thư mục `PHPLab02`.
 2. Chạy lệnh:
    ```bash
    php -S localhost:8000

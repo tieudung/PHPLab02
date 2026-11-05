@@ -6,7 +6,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'GET') {
     exit('Method not allowed');
 }
 
-$ref = trim((string)($_GET['ref'] ?? ''));
+$rawRef = $_GET['ref'] ?? '';
+$ref = is_string($rawRef) ? trim($rawRef) : '';
+
 $index = find_booking_index_by_ref($_SESSION['bookings'], $ref);
 $booking = $index !== null ? $_SESSION['bookings'][$index] : null;
 $workshopInfo = $booking !== null ? find_workshop_for_booking($booking, $workshops) : null;
